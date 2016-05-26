@@ -1,0 +1,97 @@
+{
+    "id": "com.lg.smarttv",
+    "name": {
+        "en": "LG Smart TV"
+    },
+    "version": "0.0.1",
+    "compatibility": "0.x || 1.x",
+    "author": {
+        "name": "Chamid Media",
+        "email": "info@chamidmedia.nl"
+    },
+    "images": {
+      "large": "./assets/images/large.jpg",
+      "small": "./assets/images/small.jpg"
+    },
+    "category": "appliances",
+    "description": {
+    	"en": "Control your LG SmartTV with Homey",
+		"nl": "Bestuur je LG SmartTV met Homey"
+    },
+    "dependencies": {
+    		"net": "*"
+    },
+    "drivers": [
+        {
+            "id": "smarttv",
+            "name": {
+	        	"en": "LG SmartTV",
+	        	"nl": "LG SmartTV"  
+            },
+            "images": {
+              	"large": "drivers/smarttv/assets/images/large.jpg",
+			  	"small": "drivers/smarttv/assets/images/small.jpg"
+          	},
+            "class": "other",
+            "capabilities": [ "" ],
+            "pair": [
+                {
+                    "id": "start"
+                },
+                {
+                    "id": "list_devices",
+                    "template": "list_devices",
+                    "navigation": {
+                        "next": "add_smarttv"
+                    }
+                },
+                {
+                    "id": "add_smarttv",
+                    "template": "add_devices"
+                }
+            ],
+            "settings": [
+                {
+                    "type": "group",
+                    "label": {
+                        "en": "General settings",
+                        "nl": "Algemene instellingen"
+                    },
+                    "children": [
+	                    {
+	                        "id": "ipaddress",
+	                        "type": "text",
+	                        "label": {
+	                            "en": "IP address",
+	                            "nl": "IP adres"
+	                        },
+	                        "value": "0.0.0.0"
+	                    }
+	                ]
+	            }
+	        ]
+        }
+    ], 
+    "flow": {
+        "actions": [
+        {
+            "id": "sendcommand",
+            "title": {
+                "en": "Send command",
+                "nl": "Stuur commando"
+            },
+            "args": [
+	              {
+	                "name": "device",
+	                "type": "device",
+	                "placeholder": {
+	                  "en": "Select SmartTV",
+	                  "nl": "Selecteer SmartTV"
+	                },
+	                "filter": "driver_id=smarttv"
+	              }
+	        ]
+        }
+        ]
+    }
+}
