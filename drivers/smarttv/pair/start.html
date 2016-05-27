@@ -2,6 +2,7 @@
 
 Homey.setTitle( __('pair.start.title') );
 
+/*
 Homey.on('error', function( errortype, callback ){
 
 	if (errortype == 'error') {
@@ -47,9 +48,16 @@ function saveSettings () {
 	}
 
 }
+*/
+
+function saveSettings () {
+	
+	Homey.emit( 'get_devices' );
+	
+}
 
 </script>
-
+<!--
     <p data-i18n="pair.start.intro">enter IP address</p>
 
 		<style>
@@ -74,7 +82,8 @@ function saveSettings () {
 		<p>
 		&nbsp;
 	  </p>
-
+-->
+<p>Just press the button below, for now</p>
 <fieldset>
     <button class="button" data-i18n="pair.start.saveSettings" onclick="saveSettings()">Save</button>
 </fieldset>
