@@ -3,10 +3,12 @@
 		"start": {
 			"intro": "Enter the IP address of your LG SmartTV.",
 			"title": "Finding device...",
+			"Name": "Name",
 			"error": "An error has occurred.",
 			"required": "IP address is a required value.",
 			"ipAddress": "IP address",
-			"saveSettings": "Save settings"
+			"saveSettings": "Save settings",
+			"discovery": "Searching for devices, one moment please"
 		}
   	}
 }

@@ -3,10 +3,12 @@
 		"start": {
 			"intro": "Vul het IP-adres van uw LG SmartTV in.",
 			"title": "Apparaat zoeken...",
+			"Name": "Naam",
 			"error": "Er is een fout opgetreden.",
 			"required": "IP adres is verplicht.",
 			"ipAddress": "IP adres",
-			"saveSettings": "Gegevens opslaan"
+			"saveSettings": "Gegevens opslaan",
+			"discovery": "Zoeken naar apparaten, een moment geduld a.u.b."
 		}
 	}	
 }

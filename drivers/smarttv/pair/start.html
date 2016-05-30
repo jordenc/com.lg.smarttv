@@ -2,88 +2,105 @@
 
 Homey.setTitle( __('pair.start.title') );
 
-/*
-Homey.on('error', function( errortype, callback ){
-
-	if (errortype == 'error') {
-		Homey.alert(__('pair.start.error'), 'error');
-		Homey.done();
+Homey.on('done', function (data) {
+	
+	if (typeof data === 'undefined' || data == ""|| !data) {
+		
+		document.getElementById('discovery').style.display = 'none';
+		document.getElementById('manualpair').style.display = 'block';	
+		
+	} else {
+		
+		Homey.showView('list_devices');
+		
 	}
-
-	if (errortype == 'nosettings') {
-		Homey.alert(__('pair.start.nosettings'), 'error');
-		Homey.done();
-	}
-})
+	
+});
 
 Homey.on('continue', function( success, callback ){
-
 		Homey.showView('list_devices');
-
 })
 
 function saveSettings () {
-
-	// variables
-	var inputIPAddress = document.getElementById( 'ipAddress' ).value;
 	
-	// If required values are filled in
-	// FIXME: should check if this is a real IPv4 address
-	if (inputIPAddress != '') {
+	$('#save').prop('disabled', true);
+	Homey.addDevice({
+	    data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
+	        id: $('#ipAddress').val()
+	    },
+	    settings: {
+		    'ipaddress': $('#ipAddress').val()
+	    },
+	    name: $('#Name').val(),
+	    capabilities: [
+        	'onoff',
+        	'volume_set'
 
-		// Build data array
-		var data = {
-			ipaddress: inputIPAddress
-		};
-
-		// Continue to back-end, pass along data
-		Homey.emit( 'get_devices', data );
-
-	} else {
-
-		// Give error, required values
-		Homey.alert(__('pair.start.required'), 'error');
-		Homey.done();
-
-	}
-
+        ]
+	}, function( err, result ){
+	    if( err ) return console.error(err);
+	    console.log( result);
+	    
+	    Homey.emit ('manual_add', {
+		    data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
+		        id: $('#ipAddress').val()
+		    },
+		    settings: {
+			    'ipaddress': $('#ipAddress').val()
+		    },
+		    name: $('#Name').val(),
+		    capabilities: [
+	        	'onoff',
+	        	'volume_set'
+	        ]
+		});
+	    
+	    Homey.done();
+	});
+	
 }
-*/
 
-function saveSettings () {
-	
-	Homey.emit( 'get_devices' );
-	
-}
+Homey.emit('get_devices');
 
 </script>
-<!--
-    <p data-i18n="pair.start.intro">enter IP address</p>
+	<style>
+		#pairSettings {
+			font-size:16px;
+			border:none;
+		}
 
-		<style>
-			.pairSettings {
-				font-size:16px;
-				border:none;
-			}
+		input {
+			font-size:16px;
+		}
 
-			input {
-				font-size:16px;
-			}
+	</style>
+	
+	<div id="discovery">
+		<p data-i18n="pair.start.discovery"></p>
+	</div>
+	<div id="manualpair" style='display: none'>
+    	<p data-i18n="pair.start.intro">enter IP address</p>
+		
+		<div id="tempdata">
+			
+		</div>
 
-		</style>
-
-		<table class="pairSettings">
+		<table id="pairSettings">
+			<tr>
+				<td style="width:100px;" data-i18n="pair.start.Name">Name</td>
+				<td><input id="Name" type="text" value="" placeholder="LG SmartTV"/></td>
+			</tr>
 			<tr>
 				<td style="width:100px;" data-i18n="pair.start.ipAddress">IP</td>
 				<td><input id="ipAddress" type="text" value="" placeholder="192.168.1.123"/></td>
 			</tr>
 		</table>
-
+	</div>
+	
 		<p>
 		&nbsp;
 	  </p>
--->
-<p>Just press the button below, for now</p>
+
 <fieldset>
-    <button class="button" data-i18n="pair.start.saveSettings" onclick="saveSettings()">Save</button>
+    <button class="button" id="save" data-i18n="pair.start.saveSettings" onclick="saveSettings()">Save</button>
 </fieldset>
