@@ -2,26 +2,20 @@
 
 Homey.setTitle( __('pair.start.title') );
 
-Homey.on('done', function (data) {
+Homey.on('done', function () {
 	
-	if (typeof data === 'undefined' || data == ""|| !data) {
-		
-		document.getElementById('discovery').style.display = 'none';
-		document.getElementById('manualpair').style.display = 'block';	
-		
-	} else {
-		
-		Homey.showView('list_devices');
-		
-	}
+	document.getElementById('discovery').style.display = 'none';
+	document.getElementById('manualpair').style.display = 'block';
 	
 });
 
-Homey.on('fill', function(data) {
-	$('#Name').val(data['name']);
-	$('#ipAddress').val(data['ip']);
+Homey.on('fill', function(ip) {
+	$('#Name').val(ip);
+	$('#ipAddress').val(ip);
 	
-	document.getElementById('tempdata').innerHTML = JSON.stringify(data);
+	document.getElementById('tempdata').innerHTML = JSON.stringify(ip);
+	document.getElementById('discovery').style.display = 'none';
+	document.getElementById('manualpair').style.display = 'block';
 	
 });
 
@@ -122,7 +116,7 @@ Homey.emit('get_devices');
 				<td colspan="2"><button class="button" id="requestpairingkey" onclick="requestpairingkey()" data-i18n="pair.start.requestpairingkey">Request pairing key</button></td>
 			<tr>
 				<td style="width:100px" data-i18n="pair.start.pairingkey">Pairing Key</td>
-				<td><input id="pairingkey" type="text" value="" placeholder=""></td>
+				<td><input id="pairingkey" type="text" value="" placeholder="12345"></td>
 			</tr>
 				
 		</table>

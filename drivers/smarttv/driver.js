@@ -251,7 +251,7 @@ module.exports.pair = function (socket) {
 		        //tempIP = data.address;
 		        //socket.emit ('continue', data);
 				
-				socket.emit ('done', null);
+				socket.emit ('fill', tempIP);
 				
 		    }
 			
@@ -266,7 +266,7 @@ module.exports.pair = function (socket) {
 			if (data !== null) {
 			
 				tempIP = data.address;
-				socket.emit ('continue', null);
+				socket.emit ('fill', tempIP);
 			
 			} else {
 				
