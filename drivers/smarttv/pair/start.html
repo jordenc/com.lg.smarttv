@@ -17,9 +17,23 @@ Homey.on('done', function (data) {
 	
 });
 
+Homey.on('fill', function(data) {
+	$('#Name').val(data['name']);
+	$('#ipAddress').val(data['ip']);
+	
+	document.getElementById('tempdata').innerHTML = JSON.stringify(data);
+	
+});
+
 Homey.on('continue', function( success, callback ){
 		Homey.showView('list_devices');
-})
+});
+
+Homey.on('error', function (error) {
+	
+	document.getElementById('tempdata').innerHTML = error.message;
+	
+});
 
 function saveSettings () {
 	
@@ -60,6 +74,16 @@ function saveSettings () {
 	
 }
 
+function requestpairingkey() {
+	
+	Homey.emit('requestpairingkey', {ip: $('#ipAddress').val()}, function (err, result) {
+		
+		console.log(result);
+		
+	});
+	
+}
+
 Homey.emit('get_devices');
 
 </script>
@@ -94,13 +118,19 @@ Homey.emit('get_devices');
 				<td style="width:100px;" data-i18n="pair.start.ipAddress">IP</td>
 				<td><input id="ipAddress" type="text" value="" placeholder="192.168.1.123"/></td>
 			</tr>
+			<tr>
+				<td colspan="2"><button class="button" id="requestpairingkey" onclick="requestpairingkey()" data-i18n="pair.start.requestpairingkey">Request pairing key</button></td>
+			<tr>
+				<td style="width:100px" data-i18n="pair.start.pairingkey">Pairing Key</td>
+				<td><input id="pairingkey" type="text" value="" placeholder=""></td>
+			</tr>
+				
 		</table>
+		
+		<p>&nbsp;</p>
+		<fieldset>
+			<button class="button" id="save" data-i18n="pair.start.saveSettings" onclick="saveSettings()">Save</button>
+		</fieldset>
 	</div>
 	
-		<p>
-		&nbsp;
-	  </p>
-
-<fieldset>
-    <button class="button" id="save" data-i18n="pair.start.saveSettings" onclick="saveSettings()">Save</button>
-</fieldset>
+		

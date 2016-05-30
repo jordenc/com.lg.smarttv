@@ -8,7 +8,10 @@
 			"required": "IP adres is verplicht.",
 			"ipAddress": "IP adres",
 			"saveSettings": "Gegevens opslaan",
-			"discovery": "Zoeken naar apparaten, een moment geduld a.u.b."
+			"discovery": "Zoeken naar apparaten, een moment geduld a.u.b.",
+			"pairingkey": "Sleutel",
+			"pairingdescription": "Zet uw tv aan en klik op 'Sleutel aanvragen'. Type de code over die op uw televisie verschijnt",
+			"requestpairingkey": "Sleutel aanvragen"
 		}
 	}	
 }

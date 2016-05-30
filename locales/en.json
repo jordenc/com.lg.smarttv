@@ -8,7 +8,10 @@
 			"required": "IP address is a required value.",
 			"ipAddress": "IP address",
 			"saveSettings": "Save settings",
-			"discovery": "Searching for devices, one moment please"
+			"discovery": "Searching for devices, one moment please",
+			"pairingkey": "Pairing key",
+			"pairingdescription": "Turn on your television and click the 'Request pairing key' button. Fill in the code that appears on your television.",
+			"requestpairingkey": "Request pairing key"
 		}
   	}
 }

@@ -2,31 +2,6 @@ var dgram = require('dgram');
 var http = require('http');
 var net = require('net');
 
-var address = '192.168.1.65';
-
-// Scan for devices on localhost
-function discover(callback) {
-	var message_discovery = new Buffer(
-		'M-SEARCH * HTTP/1.1\r\n' +
-		'HOST: 239.255.255.250:1900\r\n' +
-		'MAN: "ssdp:discover"\r\n' +
-		'MX: 3\r\n' +
-		'ST: urn:schemas-upnp-org:device:MediaRenderer:1\r\n\r\n');
-
-	var client = dgram.createSocket("udp4");
-
-	// send message
-	client.send(message_discovery, 0, message_discovery.length, 1900, '239.255.255.250');
-
-	client.on('message', function (msg, req_info) {
-		callback(req_info);
-	});
-
-	client.on('error', function (error) {
-		console.log('Error: ' + error);
-	});
-}
-
 // Show pairing key on the TV screen
 exports.requestPairingKey = function(callback) {
 	var message_request = '<?xml version="1.0" encoding="utf-8"?>' +
