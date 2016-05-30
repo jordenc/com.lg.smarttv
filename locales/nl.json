@@ -11,7 +11,8 @@
 			"discovery": "Zoeken naar apparaten, een moment geduld a.u.b.",
 			"pairingkey": "Sleutel",
 			"pairingdescription": "Zet uw tv aan en klik op 'Sleutel aanvragen'. Type de code over die op uw televisie verschijnt",
-			"requestpairingkey": "Sleutel aanvragen"
+			"requestpairingkey": "Sleutel aanvragen",
+			"requestPairing": "Koppelen"
 		}
 	}	
 }

@@ -306,6 +306,7 @@ module.exports.pair = function (socket) {
 		
 			req.on('error', function (error) {
 				//console.log('Error: ' + error);
+				Homey.log('Error trying to request pairing key: ' + error);
 				socket.emit('error', error);
 			});
 		
@@ -321,14 +322,64 @@ module.exports.pair = function (socket) {
 			
 		});
 		
-		/*
-			requests.requestPairing(pairingKey, function (pairingSucceeded) {
+	});
+	
+	socket.on('requestPairing', function (data, callback) {
+		
+		function requestPairing (address, pairingKey, callback) {
+			var message_request = '<?xml version="1.0" encoding="utf-8"?>' +
+				'<auth><type>AuthReq</type><value>' +
+				pairingKey + '</value></auth>';
+		
+			var options = {
+				hostname : address,
+				port : 8080,
+				path : '/udap/api/pairing',
+				method : 'POST'
+			};
+		
+			// make HTTP request
+			var req = http.request(options, function (res) {
+		
+				if(res.statusCode == 200) {
+					Homey.log('\n> The Pairing request has succeeded.')
+		
+					res.on('data', function(data){
+						Homey.log('> Response: ' + data);
+						callback(null, data);
+					});
+				}
+				else {
+					Homey.log('Error123: ' + res.statusCode + ' (statusCode)');
+					callback (res.statusCode, false);
+				}
+			});
+		
+			req.on('error', function (error) {
+				console.log('Error trying to pair: ' + error);
+				socket.emit('error', error);
+			});
+		
+			req.setHeader('Content-Type', 'text/xml; charset=utf-8');
+			req.end(message_request);
+		}
+		
+		requestPairing(data.ip, data.pairingkey, function (error, pairingSucceeded) {
 
 			// if pairing was successful, continue
-			if(pairingSucceeded)
-				promptForSessionID();
+			if(pairingSucceeded) {
+				
+				callback (pairingSucceeded);
+				//promptForSessionID();
+				
+			} else {
+				
+				Homey.log(error);
+				
+			}
+				
 		});
-		*/
+		
 		
 	});
 

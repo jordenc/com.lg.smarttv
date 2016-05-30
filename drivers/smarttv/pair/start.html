@@ -13,7 +13,7 @@ Homey.on('fill', function(ip) {
 	$('#Name').val(ip);
 	$('#ipAddress').val(ip);
 	
-	document.getElementById('tempdata').innerHTML = JSON.stringify(ip);
+	if (ip) document.getElementById('tempdata').innerHTML = JSON.stringify(ip);
 	document.getElementById('discovery').style.display = 'none';
 	document.getElementById('manualpair').style.display = 'block';
 	
@@ -70,12 +70,22 @@ function saveSettings () {
 
 function requestpairingkey() {
 	
+	document.getElementById('requestpairingkey').style.display = 'none';
+	document.getElementById('requestPairing').style.display = 'block';
+	
 	Homey.emit('requestpairingkey', {ip: $('#ipAddress').val()}, function (err, result) {
 		
 		console.log(result);
 		
 	});
 	
+}
+function requestPairing() {
+	Homey.emit('requestPairing', {ip: $('#ipAddress').val(), pairingkey: $('#pairingkey').val()}, function(data) {
+		
+		document.getElementById('tempdata').innerHTML = JSON.stringify(data);
+		
+	});
 }
 
 Homey.emit('get_devices');
@@ -114,16 +124,20 @@ Homey.emit('get_devices');
 			</tr>
 			<tr>
 				<td colspan="2"><button class="button" id="requestpairingkey" onclick="requestpairingkey()" data-i18n="pair.start.requestpairingkey">Request pairing key</button></td>
+			</tr>
 			<tr>
 				<td style="width:100px" data-i18n="pair.start.pairingkey">Pairing Key</td>
 				<td><input id="pairingkey" type="text" value="" placeholder="12345"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><button class="button" id="requestPairing" onclick="requestPairing()" data-i18n="pair.start.requestPairing" style="display: none">Try pairing</button></td>
 			</tr>
 				
 		</table>
 		
 		<p>&nbsp;</p>
 		<fieldset>
-			<button class="button" id="save" data-i18n="pair.start.saveSettings" onclick="saveSettings()">Save</button>
+			<button class="button" id="save" data-i18n="pair.start.saveSettings" style="display: none" onclick="saveSettings()">Save</button>
 		</fieldset>
 	</div>
 	
