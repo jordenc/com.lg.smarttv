@@ -449,7 +449,7 @@ module.exports.pair = function (socket) {
 					res.on('data', function(data){
 						Homey.log('> Response: ' + data);
 						
-						var splits = data.split("<session>");
+						var splits = data.toString().split("<session>");
 						
 						var splits = splits[1].split("</session>");
 						
