@@ -19,13 +19,15 @@ Homey.on('fill', function(ip) {
 	
 });
 
-Homey.on('continue', function( success, callback ){
-		Homey.showView('list_devices');
-});
-
 Homey.on('error', function (error) {
 	
 	document.getElementById('tempdata').innerHTML = error.message;
+	
+});
+
+Homey.emit('get_devices', {}, function (err, result) {
+	
+	console.log(result);
 	
 });
 
@@ -66,8 +68,7 @@ function saveSettings () {
 		});
 	    
 	    Homey.done();
-	});
-	
+	});	
 }
 
 function requestpairingkey() {
@@ -82,8 +83,8 @@ function requestpairingkey() {
 		console.log(result);
 		
 	});
-	
 }
+
 function requestPairing() {
 	Homey.emit('requestPairing', {ip: $('#ipAddress').val(), pairingkey: $('#pairingkey').val()}, function(data) {
 		
@@ -91,8 +92,6 @@ function requestPairing() {
 		
 	});
 }
-
-Homey.emit('get_devices');
 
 </script>
 	<style>

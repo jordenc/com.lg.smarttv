@@ -167,6 +167,54 @@ KEY_IDX_VOL_UP                  characterKey=24
 KEY_IDX_YELLOW                  characterKey=32
 */
 
+module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj, changedKeysArr, callback ) {
+
+    Homey.log ('Changed settings: ' + JSON.stringify(device_data) + ' / ' + JSON.stringify(newSettingsObj) + ' / old = ' + JSON.stringify(oldSettingsObj));
+    
+    try {
+	    changedKeysArr.forEach(function (key) {
+		    devices[device_data.id].settings[key] = newSettingsObj[key];
+		});
+		
+		callback(null, true);
+		
+    } catch (error) {
+	    
+      callback(error);
+      
+    }
+
+};
+
+/*
+module.exports.init = function(devices_data, callback) {
+	
+	devices_data.forEach(function initdevice(device) {
+	    
+	    Homey.log('add device: ' + JSON.stringify(device));
+	    devices[device.id] = device;
+	    
+	    module.exports.getSettings(device, function(err, settings){
+		    
+		    devices[device.id].settings = settings;
+		    
+		});
+		
+	});
+	
+	Homey.log('APP Init done');
+	
+};
+*/
+
+module.exports.deleted = function( device_data ) {
+    
+    Homey.log('deleted: ' + JSON.stringify(device_data));
+    
+    devices[device_data.id] = [];
+	
+};
+
 // CAPABILITIES
 /*
 module.exports.capabilities = {
@@ -206,50 +254,10 @@ module.exports.capabilities = {
 }
 */
 // END CAPABILITIES
-
-module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj, changedKeysArr, callback ) {
-
-    Homey.log ('Changed settings: ' + JSON.stringify(device_data) + ' / ' + JSON.stringify(newSettingsObj) + ' / old = ' + JSON.stringify(oldSettingsObj));
-    
-    try {
-	    changedKeysArr.forEach(function (key) {
-		    devices[device_data.id].settings[key] = newSettingsObj[key];
-		});
-		
-		callback(null, true);
-		
-    } catch (error) {
-	    
-      callback(error);
-      
-    }
-
-};
-
-module.exports.init = function(devices_data, callback) {
-	
-	devices_data.forEach(function initdevice(device) {
-	    
-	    Homey.log('add device: ' + JSON.stringify(device));
-	    
-	    devices[device.id] = device;
-	    
-	    
-	    module.exports.getSettings(device, function(err, settings){
-		    
-		    devices[device.id].settings = settings;
-		    
-		});
-		
-	});
-	
-};
 		    
 module.exports.pair = function (socket) {
 	// socket is a direct channel to the front-end
 
-	// this method is run when Homey.emit('list_devices') is run on the front-end
-	// which happens when you use the template `list_devices`
 	socket.on('list_devices', function( data, callback ){
         
         var new_devices = [];
@@ -304,6 +312,7 @@ module.exports.pair = function (socket) {
 
 	socket.on('get_devices', function (data, callback) {
 		
+		callback( null, 'Started discovery!' );
 		Homey.log('Starting discovery...');
 		
 		// Scan for devices on localhost
@@ -488,7 +497,7 @@ module.exports.pair = function (socket) {
 		Homey.log("LG SmartTV app - User aborted pairing, or pairing is finished");
 	});
 	
-}
+};
 
 
 Homey.manager('flow').on('action.sendcommand', function (callback, args){
