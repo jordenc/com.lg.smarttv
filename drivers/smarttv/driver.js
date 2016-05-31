@@ -167,6 +167,46 @@ KEY_IDX_VOL_UP                  characterKey=24
 KEY_IDX_YELLOW                  characterKey=32
 */
 
+// CAPABILITIES
+/*
+module.exports.capabilities = {
+    onoff: {
+
+        get: function( device_data, callback ){
+
+			Homey.log('Getting device_status of ' + devices[device_data.id].settings.ipaddress);
+			callback (null, true);
+            
+        },
+
+        set: function( device_data, turnon, callback ) {
+	        
+	        Homey.log('Setting device_status of ' + devices[device_data.id].settings.ipaddress + ' to ' + turnon);
+
+				callback (null, true);
+			
+			}
+    },
+    volume_set: {
+
+        get: function( device_data, callback ){
+
+			Homey.log('Getting volume of ' + devices[device_data.id].settings.ipaddress);
+			callback (null, 12);
+            
+        },
+
+        set: function( device_data, volume, callback ) {
+	        
+	        Homey.log('Setting volume of ' + devices[device_data.id].settings.ipaddress + ' to ' + volume);
+			callback (null, true);
+			
+        }
+    }
+}
+*/
+// END CAPABILITIES
+
 module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj, changedKeysArr, callback ) {
 
     Homey.log ('Changed settings: ' + JSON.stringify(device_data) + ' / ' + JSON.stringify(newSettingsObj) + ' / old = ' + JSON.stringify(oldSettingsObj));
