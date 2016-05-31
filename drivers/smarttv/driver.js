@@ -222,7 +222,8 @@ module.exports.pair = function (socket) {
                     id: tempIP
                 },
                 settings: {
-                	"ipaddress": tempIP
+                	"ipaddress": tempIP,
+                	"session": ""
             	},
             	capabilities: [
 					'onoff',
