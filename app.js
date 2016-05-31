@@ -1,11 +1,9 @@
 "use strict";
 
-/*
 function init() {
 	
-	Homey.log("Hello world!");
+	Homey.log("app.js init done!");
 	
 }
 
 module.exports.init = init;
-*/

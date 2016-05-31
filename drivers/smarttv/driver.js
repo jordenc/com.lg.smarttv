@@ -186,7 +186,6 @@ module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj,
 
 };
 
-/*
 module.exports.init = function(devices_data, callback) {
 	
 	devices_data.forEach(function initdevice(device) {
@@ -202,10 +201,10 @@ module.exports.init = function(devices_data, callback) {
 		
 	});
 	
-	Homey.log('APP Init done');
+	Homey.log('Driver Init done');
+	callback (null, true);
 	
 };
-*/
 
 module.exports.deleted = function( device_data ) {
     
