@@ -37,13 +37,13 @@ function saveSettings () {
 	        id: $('#ipAddress').val()
 	    },
 	    settings: {
-		    'ipaddress': $('#ipAddress').val()
+		    'ipaddress': $('#ipAddress').val(),
+		    'session': $('#session').val()
 	    },
 	    name: $('#Name').val(),
 	    capabilities: [
         	'onoff',
         	'volume_set'
-
         ]
 	}, function( err, result ){
 	    if( err ) return console.error(err);
@@ -54,7 +54,8 @@ function saveSettings () {
 		        id: $('#ipAddress').val()
 		    },
 		    settings: {
-			    'ipaddress': $('#ipAddress').val()
+			    'ipaddress': $('#ipAddress').val(),
+			    'session': $('#session').val()
 		    },
 		    name: $('#Name').val(),
 		    capabilities: [
@@ -75,6 +76,8 @@ function requestpairingkey() {
 	
 	Homey.emit('requestpairingkey', {ip: $('#ipAddress').val()}, function (err, result) {
 		
+		$('#sessionkey').val(result);
+		document.getElementById('save').style.display = 'block';
 		console.log(result);
 		
 	});
@@ -131,6 +134,10 @@ Homey.emit('get_devices');
 			</tr>
 			<tr>
 				<td colspan="2"><button class="button" id="requestPairing" onclick="requestPairing()" data-i18n="pair.start.requestPairing" style="display: none">Try pairing</button></td>
+			</tr>
+			<tr>
+				<td style="width:100px" data-i18n="pair.start.sessionkey">Session Key</td>
+				<td><input id="sessionkey" type="text" value="" placeholder=""></td>
 			</tr>
 				
 		</table>

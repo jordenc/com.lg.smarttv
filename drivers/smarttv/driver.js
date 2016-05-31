@@ -1,9 +1,21 @@
 var address = '';
-//var requests = require('../../requests.js');
+var devices = [];
 var tempIP = '';
 var dgram = require('dgram');
 var http = require('http');
 var net = require('net');
+
+var allpossibleKeys = [
+		{	inputName: 'characterKey=26',
+	 		friendlyName: "KEY_IDX_MUTE"
+		},
+		{	inputName: 'characterKey=24',
+	 		friendlyName: "KEY_IDX_VOL_UP"
+		},
+		{	inputName: 'characterKey=25',
+	 		friendlyName: "KEY_IDX_VOL_DOWN"
+		}
+];
 
 /*
 KEY_IDX_3D                      characterKey=400
@@ -155,6 +167,44 @@ KEY_IDX_VOL_UP                  characterKey=24
 KEY_IDX_YELLOW                  characterKey=32
 */
 
+module.exports.settings = function( device_data, newSettingsObj, oldSettingsObj, changedKeysArr, callback ) {
+
+    Homey.log ('Changed settings: ' + JSON.stringify(device_data) + ' / ' + JSON.stringify(newSettingsObj) + ' / old = ' + JSON.stringify(oldSettingsObj));
+    
+    try {
+	    changedKeysArr.forEach(function (key) {
+		    devices[device_data.id].settings[key] = newSettingsObj[key];
+		});
+		
+		callback(null, true);
+		
+    } catch (error) {
+	    
+      callback(error);
+      
+    }
+
+};
+
+module.exports.init = function(devices_data, callback) {
+	
+	devices_data.forEach(function initdevice(device) {
+	    
+	    Homey.log('add device: ' + JSON.stringify(device));
+	    
+	    devices[device.id] = device;
+	    
+	    
+	    module.exports.getSettings(device, function(err, settings){
+		    
+		    devices[device.id].settings = settings;
+		    
+		});
+		
+	});
+	
+};
+		    
 module.exports.pair = function (socket) {
 	// socket is a direct channel to the front-end
 
@@ -196,7 +246,8 @@ module.exports.pair = function (socket) {
         	id: device.data.id,
 			name: device.name,
 			settings: {
-				ipaddress: device.settings.ipaddress
+				ipaddress: device.settings.ipaddress,
+				session: device.settings.session
             },
             capabilities: [
 	        	'onoff',
@@ -346,7 +397,14 @@ module.exports.pair = function (socket) {
 		
 					res.on('data', function(data){
 						Homey.log('> Response: ' + data);
-						callback(null, data);
+						
+						var splits = data.split("<session>");
+						
+						var splits = splits[1].split("</session>");
+						
+						var session = splits[0];
+						
+						callback(null, session);
 					});
 				}
 				else {
@@ -387,5 +445,66 @@ module.exports.pair = function (socket) {
 		Homey.log("LG SmartTV app - User aborted pairing, or pairing is finished");
 	});
 	
+}
 
+
+Homey.manager('flow').on('action.sendcommand', function (callback, args){
+	
+	Homey.log('RECEIVED ARGS: ' + JSON.stringify(args));
+	requestCommandKey(devices[args.device.id].settings.ipaddress, devices[args.device.id].settings.session, args.command.inputName, callback);
+	
+});
+
+Homey.manager('flow').on('action.sendcommand.command.autocomplete', function (callback, value) {
+	var items = searchForCommandsByValue(value.query);
+	callback(null, items);
+});
+
+function requestCommandKey(address, sessionID, commandKey, callback) {
+	var message_request = '<?xml version="1.0" encoding="utf-8"?><command><session>' +
+		sessionID +
+		"</session><type>HandleKeyInput</type><value>" +
+		commandKey +
+		"</value></command>"
+
+	var options = {
+		hostname : address,
+		port : 8080,
+		path : '/udap/api/command',
+		method : 'POST'
+	};
+
+	// make HTTP request
+	var req = http.request(options, function (res) {
+
+		if(res.statusCode != 200) {
+			callback (res.statusCode, false);
+			Homey.log('Error: ' + res.statusCode + ' (statusCode)');
+		} else {
+			
+			callback (null, true);
+			
+		}
+	});
+
+	req.on('error', function (error) {
+		Homey.log('Error: ' + JSON.stringify(error));
+		callback (error.errno, false);
+	});
+
+	req.setHeader('Content-Type', 'text/xml; charset=utf-8');
+	req.end(message_request);
+}
+
+
+function searchForCommandsByValue (value) {
+	var possibleKeys = allpossibleKeys;
+	var tempItems = [];
+	for (var i = 0; i < possibleKeys.length; i++) {
+		var tempInput = possibleKeys[i];
+		if ( tempInput.friendlyName.toLowerCase().indexOf(value.toLowerCase()) >= 0 ) {
+			tempItems.push({ icon: "", name: tempInput.friendlyName, inputName: tempInput.inputName });
+		}
+	}
+	return tempItems;
 }

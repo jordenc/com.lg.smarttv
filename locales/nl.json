@@ -12,7 +12,8 @@
 			"pairingkey": "Sleutel",
 			"pairingdescription": "Zet uw tv aan en klik op 'Sleutel aanvragen'. Type de code over die op uw televisie verschijnt",
 			"requestpairingkey": "Sleutel aanvragen",
-			"requestPairing": "Koppelen"
+			"requestPairing": "Koppelen",
+			"sessionkey": "Sessie sleutel"
 		}
 	}	
 }

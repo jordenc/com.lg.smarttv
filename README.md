@@ -2,6 +2,12 @@
 
 **Want to show your appreciation for this app? A donation is possible via http://www.d2c.nl **
 
+**Version 0.0.4:**
+- Try to get session key and add a device with it, added the 'send command' action.
+
+**Version 0.0.3:**
+- Pairing works?
+
 **Version 0.0.2:**
 - First try at pairing
 

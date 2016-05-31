@@ -12,7 +12,8 @@
 			"pairingkey": "Pairing key",
 			"pairingdescription": "Turn on your television and click the 'Request pairing key' button. Fill in the code that appears on your television.",
 			"requestpairingkey": "Request pairing key",
-			"requestPairing": "Try pairing"
+			"requestPairing": "Try pairing",
+			"sessionkey": "Session key"
 		}
   	}
 }
