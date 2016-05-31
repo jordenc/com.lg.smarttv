@@ -75,6 +75,15 @@
 	                            "nl": "Sessie sleutel"
 	                        },
 	                        "value": "123"
+	                    },
+	                    {
+	                        "id": "pairingkey",
+	                        "type": "text",
+	                        "label": {
+	                            "en": "Pairing key",
+	                            "nl": "Pairing sleutel"
+	                        },
+	                        "value": "123"
 	                    }
 	                ]
 	            }

@@ -223,7 +223,8 @@ module.exports.pair = function (socket) {
                 },
                 settings: {
                 	"ipaddress": tempIP,
-                	"session": ""
+                	"session": "",
+                	"pairingkey": ""
             	},
             	capabilities: [
 					'onoff',
@@ -248,7 +249,8 @@ module.exports.pair = function (socket) {
 			name: device.name,
 			settings: {
 				ipaddress: device.settings.ipaddress,
-				session: device.settings.session
+				session: device.settings.session,
+				pairingkey: device.settings.pairingkey
             },
             capabilities: [
 	        	'onoff',
