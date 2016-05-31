@@ -455,7 +455,9 @@ module.exports.pair = function (socket) {
 						
 						var session = splits[0];
 						
+						Homey.log('___ SESSION = ' + session + ' ___');
 						callback(null, session);
+						
 					});
 				}
 				else {
