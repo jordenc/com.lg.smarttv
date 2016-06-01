@@ -748,13 +748,14 @@ module.exports.pair = function (socket) {
 	
 	socket.on('requestPairing', function (data, callback) {
 		
-		requestPairing(data.ip, data.pairingkey, function (error, pairingSucceeded) {
+		requestPairing(data.ip, data.pairingkey, function (error, session) {
 
 			// if pairing was successful, continue
-			if(pairingSucceeded) {
+			if(session) {
 				
-				callback (pairingSucceeded);
-				//socket.emit ('session_key', session);
+				Homey.log('pairingsucceeded: ' + JSON.stringify (session));
+				//callback (pairingSucceeded);
+				socket.emit ('session_key', session);
 				
 			} else {
 				
