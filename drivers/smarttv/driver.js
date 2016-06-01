@@ -505,6 +505,9 @@ module.exports.pair = function (socket) {
 Homey.manager('flow').on('action.sendcommand', function (callback, args){
 	
 	Homey.log('RECEIVED ARGS: ' + JSON.stringify(args));
+	
+	Homey.log ('Making a request... address = ' + devices[args.device.id].settings.ipaddress + ' / sessionID = ' + devices[args.device.id].settings.session + ' / commandKey = ' + args.command.inputName);
+	
 	requestCommandKey(devices[args.device.id].settings.ipaddress, devices[args.device.id].settings.session, args.command.inputName, callback);
 	
 });
