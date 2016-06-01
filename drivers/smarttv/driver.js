@@ -351,8 +351,7 @@ module.exports.pair = function (socket) {
 		        //testing code:
 		        //data.address = '192.168.1.210';
 		        //tempIP = data.address;
-		        //socket.emit ('continue', data);
-				
+		        
 				socket.emit ('fill', tempIP);
 				
 		    }
@@ -365,16 +364,16 @@ module.exports.pair = function (socket) {
 			
 			Homey.log('received discovery: ' + JSON.stringify (data));
 			
-			if (data !== null) {
+			//if (data !== null) {
 			
 				tempIP = data.address;
 				socket.emit ('fill', tempIP);
 			
-			} else {
+			//} else {
 				
-				socket.emit ('done', null);
+			//	socket.emit ('done', null);
 				
-			}
+			//}
 			
 		});
 
