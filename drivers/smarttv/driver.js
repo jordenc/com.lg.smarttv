@@ -722,7 +722,7 @@ module.exports.pair = function (socket) {
 				}
 				else {
 					console.log('Error: ' + res.statusCode + ' (statusCode)');
-					socket.emit('error', 'Error statuscode: ' + rest.statusCode);
+					socket.emit('error', 'Error statuscode: ' + res.statusCode);
 				}
 			});
 		
