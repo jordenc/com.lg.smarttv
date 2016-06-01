@@ -31,6 +31,14 @@ Homey.emit('get_devices', {}, function (err, result) {
 	
 });
 
+Homey.on('session_key', function (session, callback) {
+	
+	$('#sessionkey').val(session);
+	document.getElementById('save').style.display = 'block';
+	console.log('Received session key: ' + session);
+	
+});
+
 function saveSettings () {
 	
 	$('#save').prop('disabled', true);
@@ -76,13 +84,8 @@ function requestpairingkey() {
 	document.getElementById('requestpairingkey').style.display = 'none';
 	document.getElementById('requestPairing').style.display = 'block';
 	
-	Homey.emit('requestpairingkey', {ip: $('#ipAddress').val()}, function (err, result) {
-		
-		$('#sessionkey').val(result);
-		document.getElementById('save').style.display = 'block';
-		console.log(result);
-		
-	});
+	Homey.emit('requestpairingkey', {ip: $('#ipAddress').val()});
+	
 }
 
 function requestPairing() {
