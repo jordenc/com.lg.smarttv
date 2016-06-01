@@ -761,8 +761,8 @@ module.exports.pair = function (socket) {
 			// if pairing was successful, continue
 			if(pairingSucceeded) {
 				
-				//callback (pairingSucceeded);
-				socket.emit ('session_key', session);
+				callback (pairingSucceeded);
+				//socket.emit ('session_key', session);
 				
 			} else {
 				
