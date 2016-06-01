@@ -536,6 +536,53 @@ module.exports.capabilities = {
 }
 */
 // END CAPABILITIES
+
+function requestPairing (address, pairingKey, callback) {
+	var message_request = '<?xml version="1.0" encoding="utf-8"?>' +
+		'<auth><type>AuthReq</type><value>' +
+		pairingKey + '</value></auth>';
+
+	var options = {
+		hostname : address,
+		port : 8080,
+		path : '/udap/api/pairing',
+		method : 'POST'
+	};
+
+	// make HTTP request
+	var req = http.request(options, function (res) {
+
+		if(res.statusCode == 200) {
+			Homey.log('\n> The Pairing request has succeeded.')
+
+			res.on('data', function(data){
+				Homey.log('> Response: ' + data);
+				
+				var splits = data.toString().split("<session>");
+				
+				var splits = splits[1].split("</session>");
+				
+				var session = splits[0];
+				
+				Homey.log('___ SESSION = ' + session + ' ___');
+				//callback(null, session);
+				callback (null, session);
+				
+			});
+		} else {
+			Homey.log('Error: ' + res.statusCode + ' (statusCode)');
+			callback (res.statusCode, false);
+		}
+	});
+
+	req.on('error', function (error) {
+		Homey.log('Error trying to pair: ' + error);
+		callback (error, false);
+	});
+
+	req.setHeader('Content-Type', 'text/xml; charset=utf-8');
+	req.end(message_request);
+}
 		    
 module.exports.pair = function (socket) {
 	// socket is a direct channel to the front-end
@@ -553,7 +600,6 @@ module.exports.pair = function (socket) {
                 },
                 settings: {
                 	"ipaddress": tempIP,
-                	"session": "",
                 	"pairingkey": ""
             	},
             	capabilities: [
@@ -579,7 +625,6 @@ module.exports.pair = function (socket) {
 			name: device.name,
 			settings: {
 				ipaddress: device.settings.ipaddress,
-				session: device.settings.session,
 				pairingkey: device.settings.pairingkey
             },
             capabilities: [
@@ -711,61 +756,13 @@ module.exports.pair = function (socket) {
 	
 	socket.on('requestPairing', function (data, callback) {
 		
-		function requestPairing (address, pairingKey, callback) {
-			var message_request = '<?xml version="1.0" encoding="utf-8"?>' +
-				'<auth><type>AuthReq</type><value>' +
-				pairingKey + '</value></auth>';
-		
-			var options = {
-				hostname : address,
-				port : 8080,
-				path : '/udap/api/pairing',
-				method : 'POST'
-			};
-		
-			// make HTTP request
-			var req = http.request(options, function (res) {
-		
-				if(res.statusCode == 200) {
-					Homey.log('\n> The Pairing request has succeeded.')
-		
-					res.on('data', function(data){
-						Homey.log('> Response: ' + data);
-						
-						var splits = data.toString().split("<session>");
-						
-						var splits = splits[1].split("</session>");
-						
-						var session = splits[0];
-						
-						Homey.log('___ SESSION = ' + session + ' ___');
-						//callback(null, session);
-						socket.emit ('session_key', session);
-						
-					});
-				}
-				else {
-					Homey.log('Error123: ' + res.statusCode + ' (statusCode)');
-					callback (res.statusCode, false);
-				}
-			});
-		
-			req.on('error', function (error) {
-				console.log('Error trying to pair: ' + error);
-				socket.emit('error', error);
-			});
-		
-			req.setHeader('Content-Type', 'text/xml; charset=utf-8');
-			req.end(message_request);
-		}
-		
 		requestPairing(data.ip, data.pairingkey, function (error, pairingSucceeded) {
 
 			// if pairing was successful, continue
 			if(pairingSucceeded) {
 				
-				callback (pairingSucceeded);
-				//promptForSessionID();
+				//callback (pairingSucceeded);
+				socket.emit ('session_key', session);
 				
 			} else {
 				
@@ -791,7 +788,7 @@ Homey.manager('flow').on('action.sendcommand', function (callback, args){
 	
 	Homey.log ('Making a request... address = ' + devices[args.device.id].settings.ipaddress + ' / sessionID = ' + devices[args.device.id].settings.session + ' / commandKey = ' + args.command.inputName);
 	
-	requestCommandKey(devices[args.device.id].settings.ipaddress, devices[args.device.id].settings.session, args.command.inputName, callback);
+	requestCommandKey(devices[args.device.id].settings.ipaddress, devices[args.device.id].settings.pairingkey, args.command.inputName, callback);
 	
 });
 
@@ -800,40 +797,50 @@ Homey.manager('flow').on('action.sendcommand.command.autocomplete', function (ca
 	callback(null, items);
 });
 
-function requestCommandKey(address, sessionID, commandKey, callback) {
-	var message_request = '<?xml version="1.0" encoding="utf-8"?><command><session>' +
-		sessionID +
-		"</session><type>HandleKeyInput</type><value>" +
-		commandKey +
-		"</value></command>"
-
-	var options = {
-		hostname : address,
-		port : 8080,
-		path : '/udap/api/command',
-		method : 'POST'
-	};
-
-	// make HTTP request
-	var req = http.request(options, function (res) {
-
-		if(res.statusCode != 200) {
-			callback (res.statusCode, false);
-			Homey.log('Error: ' + res.statusCode + ' (statusCode)');
-		} else {
+function requestCommandKey(address, pairingkey, commandKey, callback) {
+	
+	requestPairing (address, pairingKey, function (error, sessionID) {
+	
+		if (!error) {
+		
+			var message_request = '<?xml version="1.0" encoding="utf-8"?><command><session>' +
+				sessionID +
+				"</session><type>HandleKeyInput</type><value>" +
+				commandKey +
+				"</value></command>"
+		
+			var options = {
+				hostname : address,
+				port : 8080,
+				path : '/udap/api/command',
+				method : 'POST'
+			};
+		
+			// make HTTP request
+			var req = http.request(options, function (res) {
+		
+				if(res.statusCode != 200) {
+					callback (res.statusCode, false);
+					Homey.log('Error: ' + res.statusCode + ' (statusCode)');
+				} else {
+					
+					callback (null, true);
+					
+				}
+			});
+		
+			req.on('error', function (error) {
+				Homey.log('Error: ' + JSON.stringify(error));
+				callback (error.errno, false);
+			});
+		
+			req.setHeader('Content-Type', 'text/xml; charset=utf-8');
+			req.end(message_request);
 			
-			callback (null, true);
-			
-		}
+		} else callback (error, false);
+		
 	});
-
-	req.on('error', function (error) {
-		Homey.log('Error: ' + JSON.stringify(error));
-		callback (error.errno, false);
-	});
-
-	req.setHeader('Content-Type', 'text/xml; charset=utf-8');
-	req.end(message_request);
+	
 }
 
 

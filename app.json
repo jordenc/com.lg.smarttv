@@ -3,7 +3,7 @@
     "name": {
         "en": "LG Smart TV"
     },
-    "version": "0.1.0",
+    "version": "0.1.1",
     "compatibility": "0.x || 1.x",
     "author": {
         "name": "Chamid Media",

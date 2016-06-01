@@ -33,10 +33,12 @@ Homey.emit('get_devices', {}, function (err, result) {
 
 Homey.on('session_key', function (session, callback) {
 	
-	$('#sessionkey').val(session);
-	document.getElementById('save').style.display = 'block';
-	console.log('Received session key: ' + session);
-	
+	if (session) {
+		document.getElementById('save').style.display = 'block';
+		console.log('Received session key: ' + session);
+	} else {
+		alert('No session key received');
+	}
 });
 
 function saveSettings () {
@@ -48,7 +50,7 @@ function saveSettings () {
 	    },
 	    settings: {
 		    'ipaddress': $('#ipAddress').val(),
-		    'session': $('#sessionkey').val()
+		    'pairingkey': $('#pairingkey').val()
 	    },
 	    name: $('#Name').val(),
 	    capabilities: [
@@ -65,7 +67,6 @@ function saveSettings () {
 		    },
 		    settings: {
 			    'ipaddress': $('#ipAddress').val(),
-			    'session': $('#sessionkey').val(),
 			    'pairingkey': $('#pairingkey').val()
 		    },
 		    name: $('#Name').val(),
@@ -137,10 +138,6 @@ function requestPairing() {
 			</tr>
 			<tr>
 				<td colspan="2"><button class="button" id="requestPairing" onclick="requestPairing()" data-i18n="pair.start.requestPairing" style="display: none">Try pairing</button></td>
-			</tr>
-			<tr>
-				<td style="width:100px" data-i18n="pair.start.sessionkey">Session Key</td>
-				<td><input id="sessionkey" type="text" value="" placeholder=""></td>
 			</tr>
 				
 		</table>

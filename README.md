@@ -15,5 +15,5 @@ Steps to add a device:
 
 There is only one card available in your Homey flows, the 'send command' card. I might add new functionality in the future, however please keep in mind that this is kinda hard as I don't have a LG TV myself! (someone donate me one ;)) 
 
-**Version 0.1.0:**
+**Version 0.1.1:**
 - First release
