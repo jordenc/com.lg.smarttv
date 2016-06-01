@@ -693,16 +693,8 @@ module.exports.pair = function (socket) {
 			
 			Homey.log('received discovery: ' + JSON.stringify (data));
 			
-			//if (data !== null) {
-			
-				tempIP = data.address;
-				socket.emit ('fill', tempIP);
-			
-			//} else {
-				
-			//	socket.emit ('done', null);
-				
-			//}
+			tempIP = data.address;
+			socket.emit ('fill', tempIP);
 			
 		});
 
@@ -823,9 +815,7 @@ function requestCommandKey(address, pairingkey, commandKey, callback) {
 					callback (res.statusCode, false);
 					Homey.log('Error: ' + res.statusCode + ' (statusCode)');
 				} else {
-					
 					callback (null, true);
-					
 				}
 			});
 		
