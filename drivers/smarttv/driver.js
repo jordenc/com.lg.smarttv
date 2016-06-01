@@ -6,13 +6,13 @@ var http = require('http');
 var net = require('net');
 
 var allpossibleKeys = [
-		{	inputName: 'characterKey=26',
+		{	inputName: '26',
 	 		friendlyName: "KEY_IDX_MUTE"
 		},
-		{	inputName: 'characterKey=24',
+		{	inputName: '24',
 	 		friendlyName: "KEY_IDX_VOL_UP"
 		},
-		{	inputName: 'characterKey=25',
+		{	inputName: '25',
 	 		friendlyName: "KEY_IDX_VOL_DOWN"
 		}
 ];
