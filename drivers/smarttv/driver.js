@@ -779,7 +779,7 @@ Homey.manager('flow').on('action.sendcommand', function (callback, args){
 	
 	Homey.log('RECEIVED ARGS: ' + JSON.stringify(args));
 	
-	Homey.log ('Making a request... address = ' + devices[args.device.id].settings.ipaddress + ' / sessionID = ' + devices[args.device.id].settings.session + ' / commandKey = ' + args.command.inputName);
+	Homey.log ('Making a request... address = ' + devices[args.device.id].settings.ipaddress + ' / pairingkey = ' + devices[args.device.id].settings.pairingkey + ' / commandKey = ' + args.command.inputName);
 	
 	requestCommandKey(devices[args.device.id].settings.ipaddress, devices[args.device.id].settings.pairingkey, args.command.inputName, callback);
 	
@@ -792,7 +792,7 @@ Homey.manager('flow').on('action.sendcommand.command.autocomplete', function (ca
 
 function requestCommandKey(address, pairingkey, commandKey, callback) {
 	
-	requestPairing (address, pairingKey, function (error, sessionID) {
+	requestPairing (address, pairingkey, function (error, sessionID) {
 	
 		if (!error) {
 		
