@@ -635,11 +635,12 @@ module.exports.pair = function (socket) {
 		        //data.address = '192.168.1.210';
 		        //tempIP = data.address;
 		        
-				socket.emit ('fill', tempIP);
+				//socket.emit ('fill', tempIP);
+				socket.emit ('fill');
 				
 		    }
 			
-			setTimeout(close, 1000);
+			setTimeout(close, 5000);
 			
 		}
 		
@@ -684,7 +685,7 @@ module.exports.pair = function (socket) {
 				}
 				else {
 					console.log('Error: ' + res.statusCode + ' (statusCode)');
-					process.exit(1);
+					socket.emit('error', 'Error statuscode: ' + rest.statusCode);
 				}
 			});
 		
