@@ -10,10 +10,11 @@ Homey.on('done', function () {
 });
 
 Homey.on('fill', function(ip) {
-	$('#Name').val(ip);
-	$('#ipAddress').val(ip);
 	
-	if (ip) document.getElementById('tempdata').innerHTML = JSON.stringify(ip);
+	if (ip) {
+		$('#Name').val(ip);
+		$('#ipAddress').val(ip);
+	}
 	document.getElementById('discovery').style.display = 'none';
 	document.getElementById('manualpair').style.display = 'block';
 	
