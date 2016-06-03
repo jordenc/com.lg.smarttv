@@ -22,7 +22,7 @@ Homey.on('fill', function(ip) {
 
 Homey.on('error', function (error) {
 	
-	document.getElementById('tempdata').innerHTML = "Error" + error.message;
+	document.getElementById('tempdata').innerHTML = "Error: " + JSON.stringify(error);
 	
 });
 
