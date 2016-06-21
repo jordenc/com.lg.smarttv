@@ -10,8 +10,9 @@
 			"saveSettings": "Save settings",
 			"discovery": "Searching for devices, one moment please",
 			"pairingkey": "Pairing key",
-			"pairingdescription": "Turn on your television and click the 'Request pairing key' button. Fill in the code that appears on your television.",
-			"requestpairingkey": "Request pairing key",
+			"pairingdescription": "Turn on your television and click the 'Request pairing key' button. Fill in the code that appears on your television.<br/>First try button v1, if that doesn't work please try button v2",
+			"requestpairingkey": "Request pairing key v1",
+			"requestpairingkey2": "Request pairing key v2",
 			"requestPairing": "Try pairing",
 			"sessionkey": "Session key"
 		}

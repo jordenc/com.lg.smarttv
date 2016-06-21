@@ -746,6 +746,54 @@ module.exports.pair = function (socket) {
 		
 	});
 	
+
+	socket.on('requestpairingkey2', function(data) {
+		
+		function requestPairingKey2 (address, callback) {
+			var message_request = '<?xml version="1.0" encoding="utf-8"?><envelope><api type="pairing"><name>showKey</name></api></envelope>';
+		
+			var options = {
+				hostname : address,
+				port : 8080,
+				path : '/udap/api/pairing',
+				method : 'POST'
+			};
+		
+			// make HTTP request
+			var req = http.request(options, function (res) {
+		
+				if(res.statusCode == 200) {
+					console.log('> The Pairing Key v2 is being displayed on the TV screen.')
+					callback(true);
+				}
+				else {
+					console.log('Error v2: ' + res.statusCode + ' (statusCode)');
+					socket.emit('error', 'Error statuscode v2: ' + res.statusCode);
+				}
+			});
+		
+			req.on('error', function (error) {
+				//console.log('Error: ' + error);
+				Homey.log('Error trying to request pairing key v2: ' + error);
+				socket.emit('error', error);
+			});
+		
+			req.setHeader('Content-Type', 'text/xml; charset=utf-8');
+			req.end(message_request);
+		}
+		
+		Homey.log('requestpairingkey2 IP = ' + JSON.stringify(data));
+		
+		requestPairingKey2 (data.ip, function (callback) {
+			
+			Homey.log('REQUEST v2 callback = ' + JSON.stringify(callback));
+			
+		});
+		
+	});
+
+
+	
 	socket.on('requestPairing', function (data, callback) {
 		
 		requestPairing(data.ip, data.pairingkey, function (error, session) {

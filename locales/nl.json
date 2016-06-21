@@ -10,8 +10,9 @@
 			"saveSettings": "Gegevens opslaan",
 			"discovery": "Zoeken naar apparaten, een moment geduld a.u.b.",
 			"pairingkey": "Sleutel",
-			"pairingdescription": "Zet uw tv aan en klik op 'Sleutel aanvragen'. Type de code over die op uw televisie verschijnt",
-			"requestpairingkey": "Sleutel aanvragen",
+			"pairingdescription": "Zet uw tv aan en klik op 'Sleutel aanvragen'. Type de code over die op uw televisie verschijnt.<br/>Probeer eerst de knop met v1, als dat niet werkt, probeer knop v2",
+			"requestpairingkey": "Sleutel aanvragen v1",
+			"requestpairingkey": "Sleutel aanvragen v2",
 			"requestPairing": "Koppelen",
 			"sessionkey": "Sessie sleutel"
 		}
