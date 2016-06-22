@@ -93,7 +93,7 @@ function requestpairingkey() {
 function requestpairingkey2() {
 	
 	document.getElementById('requestpairingkey2').style.display = 'none';
-	document.getElementById('requestPairing2').style.display = 'block';
+	//document.getElementById('requestPairing2').style.display = 'block';
 	
 	Homey.emit('requestpairingkey2', {ip: $('#ipAddress').val()});
 	
@@ -140,7 +140,7 @@ function requestPairing() {
 				<td><input id="ipAddress" type="text" value="" placeholder="192.168.1.123"/></td>
 			</tr>
 			<tr>
-				<td colspan="2"><button class="button" id="requestpairingkey" onclick="requestpairingkey()" data-i18n="pair.start.requestpairingkey">Request pairing key v1</button> <button class="button" id="requestpairingkey2" onclick="requestpairingkey()" data-i18n="pair.start.requestpairingkey2">Request pairing key v2</button></td>
+				<td colspan="2"><button class="button" id="requestpairingkey" onclick="requestpairingkey()" data-i18n="pair.start.requestpairingkey">Request pairing key v1</button> <button class="button" id="requestpairingkey2" onclick="requestpairingkey2()" data-i18n="pair.start.requestpairingkey2">Request pairing key v2</button></td>
 			</tr>
 			<tr>
 				<td style="width:100px" data-i18n="pair.start.pairingkey">Pairing Key</td>
