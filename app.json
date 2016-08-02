@@ -3,7 +3,7 @@
     "name": {
         "en": "LG Smart TV"
     },
-    "version": "0.1.3",
+    "version": "0.1.4",
     "compatibility": "0.x || 1.x",
     "author": {
         "name": "Chamid Media",
@@ -33,7 +33,7 @@
 			  	"small": "drivers/smarttv/assets/images/small.jpg"
           	},
             "class": "other",
-            "capabilities": [ "" ],
+            "capabilities": [],
             "pair": [
                 {
                     "id": "start"
